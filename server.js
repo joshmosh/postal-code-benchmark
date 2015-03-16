@@ -1,12 +1,13 @@
 var express = require('express')
 var mongo_client = require('mongodb').MongoClient
+var mysql = require('mysql')
 var assert = require('assert')
 var async = require('async')
 var app = express()
 
 var postal_codes = require('./resources/postal_codes')
 
-app.get('/', function(req, res) {
+app.get('/mongo', function(req, res) {
   mongo_client.connect(process.env.MONGO_URL, function(err, db) {
     assert.equal(null, err)
 
@@ -31,6 +32,30 @@ app.get('/', function(req, res) {
 
       res.status(200).send("Found all postal codes.")
     })
+  })
+})
+
+app.get('/mysql', function(req, res) {
+  var connection = mysql.createConnection(process.env.MYSQL_URL)
+
+  async.eachSeries(postal_codes, function(postal_code, callback) {
+    var start = new Date()
+
+    connection.query('SELECT DISTINCT * FROM `2015` WHERE `zip5` = ? LIMIT 1', [parseInt(postal_code)], function(err, result) {
+      var end = new Date()
+
+      var response_time = end - start
+
+      console.log("Postal code lookup for " + postal_code + " took " + response_time + " milliseconds.")
+
+      callback()
+    })
+  }, function(err) {
+    assert.equal(null, err)
+
+    connection.end()
+
+    res.status(200).send("Found all postal codes.")
   })
 })
 
