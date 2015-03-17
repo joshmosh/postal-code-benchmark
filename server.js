@@ -39,12 +39,10 @@ app.get('/mongo', function(req, res) {
 })
 
 app.get('/mysql', function(req, res) {
-  var connection = mysql.createConnection(process.env.MYSQL_URL)
-
   async.eachSeries(postal_codes, function(postal_code, callback) {
     var start = new Date()
 
-    connection.query('SELECT DISTINCT * FROM `2015` WHERE `zip5` = ? LIMIT 1', [parseInt(postal_code)], function(err, result) {
+    mysql_client.query('SELECT DISTINCT * FROM `2015` WHERE `zip5` = ? LIMIT 1', [parseInt(postal_code)], function(err, result) {
       var end = new Date()
 
       var response_time = end - start
