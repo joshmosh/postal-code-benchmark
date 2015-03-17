@@ -32,10 +32,10 @@ app.get('/mongo', function(req, res) {
       assert.equal(null, err)
 
       db.close()
-
-      res.status(200).send("Found all postal codes.")
     })
   })
+
+  res.status(200).send("Looking up postal codes. Check your logs.")
 })
 
 app.get('/mysql', function(req, res) {
@@ -57,9 +57,9 @@ app.get('/mysql', function(req, res) {
     assert.equal(null, err)
 
     connection.end()
-
-    res.status(200).send("Found all postal codes.")
   })
+
+  res.status(200).send("Looking up postal codes. Check your logs.")
 })
 
 app.all('*', function(req, res) {
