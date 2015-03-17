@@ -54,7 +54,7 @@ app.get('/mysql', function(req, res) {
   }, function(err) {
     assert.equal(null, err)
 
-    connection.end()
+    mysql_client.end()
   })
 
   res.status(200).send("Looking up postal codes. Check your logs.")
