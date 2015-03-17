@@ -1,11 +1,14 @@
 var express = require('express')
 var mongo_client = require('mongodb').MongoClient
-var mysql = require('mysql')
 var assert = require('assert')
 var async = require('async')
 var app = express()
 
+// Resources
 var postal_codes = require('./resources/postal_codes')
+
+// Helpers
+var mysql_client = require('./helpers/mysql')
 
 app.get('/mongo', function(req, res) {
   mongo_client.connect(process.env.MONGO_URL, function(err, db) {
