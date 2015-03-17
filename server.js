@@ -19,7 +19,7 @@ app.get('/mongo', function(req, res) {
     async.eachSeries(postal_codes, function(postal_code, callback) {
       var start = new Date()
 
-      col.findOne({ zip5: postal_code }, function() {
+      col.findOne({ zip5: parseInt(postal_code) }, function() {
         var end = new Date()
 
         var response_time = end - start
