@@ -18,8 +18,8 @@ var options = {
 if(db_url.auth) {
   var auth = db_url.auth.split(':')
 
-  db_url.user = auth[0]
-  db_url.password = auth[1]
+  options.user = auth[0]
+  options.password = auth[1]
 }
 
 var client = mysql.createConnection(options)
